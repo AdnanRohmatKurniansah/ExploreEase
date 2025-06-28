@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  username String @unique
+  password String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Categories {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String
+  slug String 
+  icon String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  tours Tours[] @relation("CategoryTours")
+}
+
+model Destinations {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  slug String
+  description String
+  image String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  tours Tours[] @relation("DestinationTours")
+}
+
+model Facility {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  type String 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Tours {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  slug String
+  image String
+  description String
+  highlight String
+  price Int
+  discount_price Int?
+  categoryId String @db.ObjectId
+  destinationId String @db.ObjectId
+  is_popular Boolean @default(false)
+  location String
+  include String
+  exclude String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  category Categories @relation("CategoryTours", fields: [categoryId], references: [id])
+  destination Destinations @relation("DestinationTours", fields: [destinationId], references: [id])
+}
+
+model ToursImage {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  image String
+  tourId String @db.ObjectId
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model ToursItinerary {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  tourId String @db.ObjectId
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model BookingTransactions {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  phone_number String
+  email String
+  total_amount Int
+  is_paid Boolean
+  total_participant Int
+  ticketId String @db.ObjectId
+  started_at DateTime
+  proof String
+  booking_trx_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
