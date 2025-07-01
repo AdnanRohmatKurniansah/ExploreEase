@@ -54,7 +54,7 @@
   --primary: #d4483b;
   --primary-transparent: rgb(212, 72, 59, 0.2);
   --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
+  --secondary: #FBBE06;
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
@@ -169,4 +169,46 @@ h3.tiptap-heading + h2.tiptap-heading {
 	border-left: 3px solid gray;
 	margin: 1.5rem 0;
 	padding-left: 1rem;
+}
+
+/* Page */
+
+
+.section-page {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media(max-width: 768px) {
+  .section-page {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  .section-page.high-top {
+    padding-top: 230px;
+  }
+  .section-page.short-top {
+    padding-bottom: 30px;
+  }
+}
+
+.section-title .title span {
+  background-color: var(--primary);
+  margin-right: 10px;
+  border-radius: 5px;
+  width: 40px;
+  height: 3px;
+}
+
+.section-title .heading {
+  font-size: 28px;
+}
+
+@media (max-width: 768px) {
+  .section-title .title h6 {
+    font-size: 14px;
+  }
+  .section-title .heading {
+    font-size: 20px;
+  }
 }

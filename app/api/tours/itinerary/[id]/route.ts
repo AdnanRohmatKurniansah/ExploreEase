@@ -4,11 +4,13 @@ import { Params } from "@/app/types/type"
 import { ToursItineraryUpdateSchema } from "@/app/validations/ToursValidation"
 import { NextRequest, NextResponse } from "next/server"
 
-export const GET = async ({params}: { params: Params }) => {
+export const GET = async (req: NextRequest, {params}: { params: Promise<Params> }) => {
+    const { id } = await params
+
     try {
         const toursItinerary = await prisma.toursItinerary.findUnique({
             where: {
-                id: params.id
+                id: id
             }
         })
 
@@ -30,8 +32,8 @@ export const GET = async ({params}: { params: Params }) => {
     }
 }
 
-export const PUT = async (req: NextRequest, {params}: {params: Params}) => {
-    const { id } = params
+export const PUT = async (req: NextRequest, {params}: { params: Promise<Params> }) => {
+    const { id } = await params
 
     try {
         checkServerSession()
@@ -78,8 +80,8 @@ export const PUT = async (req: NextRequest, {params}: {params: Params}) => {
     }
 }
 
-export const DELETE = async (req: NextRequest, { params }: {params: Params}) => {
-    const { id } = params
+export const DELETE = async (req: NextRequest, { params }: { params: Promise<Params> }) => {
+    const { id } = await params
 
     try {
         checkServerSession()

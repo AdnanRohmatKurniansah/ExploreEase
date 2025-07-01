@@ -26,6 +26,7 @@ import {
 } from "@/app/components/ui/sheet";
 import Link from "next/link";
 import Image from "next/image";
+import { Input } from "../ui/input";
 
 interface MenuItem {
   title: string;
@@ -67,7 +68,7 @@ const Navbar = ({
   },
 }: NavbarProps) => {
   return (
-    <section className="py-3 px-5 md:px-14 border-b">
+    <section className="sticky top-0 z-50 bg-white py-3 px-5 md:px-14 border-b shadow-sm">
       <div className="container">
         {/* DESKTOP NAV */}
         <nav className="hidden lg:flex items-center justify-between gap-4">
@@ -76,17 +77,18 @@ const Navbar = ({
             <Link href={logo.url} className="flex items-center gap-2 shrink-0">
               <Image src={logo.src} width={0} height={0} sizes="100vw" className="h-14 w-auto" alt={logo.alt} />
             </Link>
-            <div className="search ps-2 flex items-center rounded-full border-2 w-full">
-              <Search className="h-4" />
-              <input
+            <div className="relative w-full ps-2">
+              <span className="absolute inset-y-0 start-4 flex items-center text-gray-400">
+                <Search className="w-4 h-4" />
+              </span>
+              <Input
                 type="text"
                 placeholder="Search tours or destinations"
-                className="w-full rounded-md px-2 py-2 text-sm focus:outline-none focus:ring-none"
+                className="w-full rounded-full border-2 py-2 ps-10 pe-4 text-sm focus:outline-none"
               />
             </div>
           </div>
 
-          {/* Menu center */}
           <div className="flex-1 flex justify-center">
             <NavigationMenu>
               <NavigationMenuList>

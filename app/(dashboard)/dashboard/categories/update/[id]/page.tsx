@@ -6,16 +6,17 @@ import UpdateForm from './update-form'
 import { notFound } from 'next/navigation'
 import prisma from '@/app/lib/prisma'
 
-interface Params {
-  params: {
+type Params = {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 const Page = async ({ params }: Params) => {
+  const { id } = await params
   const category = await prisma.categories.findUnique({
     where: {
-        id: params.id
+        id: id
     }
   })
 

@@ -47,6 +47,7 @@ export type Facility = {
 
 export type Tours = {
     id: string
+    slug?: string
     title: string,
     image: string,
     description: string,
@@ -61,10 +62,10 @@ export type Tours = {
     exclude: string,
     created_at: Date,
     updated_at: Date,
-    category: {
+    category?: {
         name: string
     }
-    destination: {
+    destination?: {
         name: string
     }
 }

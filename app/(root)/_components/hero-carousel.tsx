@@ -40,7 +40,7 @@ export default function HeroCarousel() {
   }, []);
 
   return (
-    <div className="relative w-full h-[85vh] overflow-hidden bg-white rounded-b-3xl">
+    <div className="relative w-full h-[85vh] bg-white rounded-b-3xl">
       {slides.map((slide, idx) => (
         <div
           key={idx}
@@ -62,11 +62,11 @@ export default function HeroCarousel() {
             </h2>
             <p className="mt-4 text-md">{slide.subtitle}</p>
             <Button asChild className="mt-6 bg-primary text-sm md:text-md px-4 py-3 rounded-full w-fit">
-              <a href="/tours">{slide.cta}</a>
+              <Link href="/tours">{slide.cta}</Link>
             </Button>
           </div>
 
-          <div className="z-10 flex flex-col gap-4 justify-center ml-auto hidden md:flex">
+          <div className="z-10 flex-col gap-4 justify-center ml-auto hidden md:flex">
             {slides.map((s, i) => (
               <button
                 key={i}

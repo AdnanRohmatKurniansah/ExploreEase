@@ -8,11 +8,13 @@ import { v2 as cloudinary } from "cloudinary"
 import { uploadToCloudinary } from "@/app/lib/uploadToCloudinary"
 import { Blob } from "buffer"
 
-export const GET = async ({params}: { params: Params }) => {
+export const GET = async (req: NextRequest, {params}: { params: Promise<Params> }) => {
+    const { id } = await params
+
     try {
         const category = await prisma.categories.findUnique({
             where: {
-                id: params.id
+                id: id
             }
         })
 
@@ -34,8 +36,8 @@ export const GET = async ({params}: { params: Params }) => {
     }
 }
 
-export const PUT = async (req: NextRequest, {params}: {params: Params}) => {
-    const { id } = params
+export const PUT = async (req: NextRequest, {params}: {params: Promise<Params>}) => {
+    const { id } = await params
 
     try {
         checkServerSession()
@@ -115,8 +117,8 @@ export const PUT = async (req: NextRequest, {params}: {params: Params}) => {
     }
 }
 
-export const DELETE = async (req: NextRequest, { params }: {params: Params}) => {
-    const { id } = params
+export const DELETE = async (req: NextRequest, { params }: {params: Promise<Params>}) => {
+    const { id } = await params
 
     try {
         checkServerSession()

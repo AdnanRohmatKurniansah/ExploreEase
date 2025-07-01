@@ -19,7 +19,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Categories, Destinations, Facility } from '@/app/types/type'
 import { RadioGroup, RadioGroupItem } from '@/app/components/ui/radio-group'
 import { MultiSelect } from '@/app/components/ui/multi-select'
-import QuillEditor from '@/app/components/shared/quill-editor'
+import dynamic from 'next/dynamic'
+
+const QuillEditor = dynamic(() => import('@/app/components/shared/quill-editor'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>,
+})
 
 type TourFormData = z.infer<typeof ToursSchema>
 

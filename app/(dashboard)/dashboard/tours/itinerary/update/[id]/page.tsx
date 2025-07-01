@@ -7,15 +7,17 @@ import prisma from '@/app/lib/prisma'
 import UpdateForm from './update-form'
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 const Page = async ({ params }: Params) => {
+  const { id } = await params
+
   const tourItinerary = await prisma.toursItinerary.findUnique({
     where: {
-        id: params.id
+        id: id
     }
   })
 

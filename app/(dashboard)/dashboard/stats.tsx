@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/app/components/ui/card'
 import { ArrowRight, Badge, BookIcon, Plane, Ticket, User } from 'lucide-react'
-import prisma from '../lib/prisma'
+import prisma from '@/app/lib/prisma'
 
 const Stats = async () => {
   const users = await prisma.user.count()

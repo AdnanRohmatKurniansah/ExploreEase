@@ -7,15 +7,17 @@ import { notFound } from 'next/navigation'
 import prisma from '@/app/lib/prisma'
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 const Page = async ({ params }: Params) => {
+  const { id } = await params
+
   const destination = await prisma.destinations.findUnique({
     where: {
-        id: params.id
+        id: id
     }
   })
 

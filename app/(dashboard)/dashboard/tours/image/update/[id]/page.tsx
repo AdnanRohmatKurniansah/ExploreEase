@@ -7,9 +7,9 @@ import prisma from '@/app/lib/prisma'
 import UpdateForm from './update-form'
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 const Page = async ({ params }: Params) => {

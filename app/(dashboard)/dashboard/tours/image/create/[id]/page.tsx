@@ -5,17 +5,19 @@ import React from 'react'
 import CreateForm from './create-form'
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-const Page = ({ params }: Params) => {
+const Page = async ({ params }: Params) => {
+  const { id } = await params
+
   return (
     <div className='main'>
       <div className="flex items-center">
         <div className="flex items-center gap-2 mt-4">
-          <Link href={`/dashboard/tours/update/${params.id}`}>
+          <Link href={`/dashboard/tours/update/${id}`}>
             <Button size="sm" className="gap-1 mb-2">
               <ArrowLeftCircle className="h-3.5 w-3.5" />
               <span className="sm:whitespace-nowrap">Back to update page</span>
@@ -23,7 +25,7 @@ const Page = ({ params }: Params) => {
           </Link>
         </div>
       </div>
-      <CreateForm tourId={params.id} />
+      <CreateForm tourId={id} />
     </div>
   )
 }

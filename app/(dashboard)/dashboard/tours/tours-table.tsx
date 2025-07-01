@@ -104,8 +104,8 @@ const TourTable = () => {
                     <Badge variant="outline" className="bg-red-500 text-white"><XCircleIcon /></Badge>
                     )}
                   </TableCell>
-                  <TableCell className="font-medium">{tour.category.name}</TableCell>
-                  <TableCell className="font-medium">{tour.destination.name}</TableCell>
+                  <TableCell className="font-medium">{tour.category?.name}</TableCell>
+                  <TableCell className="font-medium">{tour.destination?.name}</TableCell>
                   <TableCell className="font-medium">{formatDate(tour.created_at)}</TableCell>
                   <TableCell className="font-medium hidden sm:table-cell">
                     {formatDate(tour.updated_at)}
