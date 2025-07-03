@@ -1,5 +1,5 @@
 import { Button } from '@/app/components/ui/button'
-import { ArrowLeftCircle, Mail, User } from 'lucide-react'
+import { ArrowLeftCircle, Mail, MessageCircle, User } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { notFound } from 'next/navigation'
@@ -64,7 +64,7 @@ const Page = async ({ params }: Params) => {
                 </li>
                 <li className='flex mb-4'>
                     <div className="icon me-3 bg-primary rounded-full p-2 w-10 h-10 flex items-center justify-center flex-shrink-0">
-                        <Mail className="text-white w-4 h-4" />
+                        <MessageCircle className="text-white w-4 h-4" />
                     </div>
                     <div className="text">
                         <h3 className='font-semibold'>Message:</h3>

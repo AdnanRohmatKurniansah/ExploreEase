@@ -108,7 +108,7 @@ const ContactTable = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <Link href={`/dashboard/contact/${contact.id}`}>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
+                          <DropdownMenuItem>View</DropdownMenuItem>
                         </Link>
                         <DropdownMenuItem
                           onClick={() => {

@@ -21,7 +21,7 @@ const AboutSection = () => {
                 <div className="section-title relative mb-2">
                     <div className="absolute -top-2 -left-5">
                         <div className="relative w-[80px] md:w-[130px] h-auto aspect-square opacity-30">
-                            <Image src="/images/ornaments/map-ornament.png" alt="bag ornament" fill className="object-contain"/>
+                            <Image src="/images/ornaments/map-ornament.png" alt="map ornament" fill className="object-contain"/>
                         </div>
                     </div>
                     <div className="title flex justify-start items-center mb-3 md:mb-4">

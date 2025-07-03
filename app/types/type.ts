@@ -63,12 +63,12 @@ export type Tours = {
     created_at: Date,
     updated_at: Date,
     category?: {
-        name: string
-        slug: string
+        name?: string
+        slug?: string
     }
     destination?: {
-        name: string
-        slug: string
+        name?: string
+        slug?: string
     }
 }
 

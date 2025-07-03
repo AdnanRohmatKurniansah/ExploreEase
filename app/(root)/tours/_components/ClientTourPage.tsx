@@ -12,6 +12,8 @@ import {
 } from '@/app/components/ui/breadcumb'
 import { Categories, Destinations, Tours } from '@/app/types/type'
 import axios from 'axios'
+import TourCardSkeleton from '../../_components/tour-card-skeleton'
+import Image from 'next/image'
 
 type Props = {
   categories: Categories[]
@@ -25,6 +27,11 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
   const [tours, setTours] = useState<Tours[]>([])
   const [loading, setLoading] = useState(false)
 
+  const [page, setPage] = useState(1)
+  const limit = 12
+  const [total, setTotal] = useState(0)
+
+
   const fetchFilteredTours = async () => {
     setLoading(true)
     try {
@@ -33,9 +40,12 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
           category: selectedCategory,
           destination: selectedDestination,
           price: priceRange[0],
+          page,
+          limit,
         },
       })
-      setTours(res.data)
+      setTours(res.data.tours)
+      setTotal(res.data.total)
     } catch (error) {
       console.error('Failed to fetch tours:', error)
     } finally {
@@ -45,7 +55,8 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
 
   useEffect(() => {
     fetchFilteredTours()
-  }, [selectedCategory, selectedDestination, priceRange])
+    setPage(1)
+  }, [selectedCategory, selectedDestination, priceRange, page])
 
   return (
     <div className='relative w-full'>
@@ -65,7 +76,7 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
 
       <div className="main grid grid-cols-1 md:grid-cols-4 gap-6 px-5 md:px-15 py-8 section-page sm">
         <div className="md:col-span-1 border rounded-xl bg-white p-4 shadow">
-          <h2 className="font-semibold text-lg mb-4">Filters</h2>
+          <h2 className="font-semibold text-lg pb-4 border-b">Filters</h2>
           <FilterTour
             categories={categories}
             destinations={destinations}
@@ -80,15 +91,47 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
 
         <div className="md:col-span-3">
           {loading ? (
-            <p>Loading tours...</p>
-          ) : tours.length === 0 ? (
-            <p>No tours found with the selected filters.</p>
-          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tours.map((tour, i) => (
-                <TourCard key={i} tour={tour} />
+              {Array.from({ length: 6 }).map((_, i) => (
+                <TourCardSkeleton key={i} />
               ))}
             </div>
+          ) : tours.length === 0 ? (
+            <div className="not-found flex flex-col items-center justify-center h-2/3 text-center">
+              <div className="w-[150px] md:w-[240px] aspect-square relative mb-4">
+                <Image src="/images/not-found.png" fill alt="not found img" className="object-contain" />
+              </div>
+              <p className="font-medium">No tours found with the selected filters.</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {tours.map((tour, i) => (
+                  <TourCard key={i} tour={tour} />
+                ))}
+              </div>
+              {total > limit && (
+                <div className="mt-8 flex justify-center gap-4">
+                  <button
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="px-4 py-2 border rounded disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
+                  <span className="px-4 py-2 font-medium">
+                    Page {page} of {Math.ceil(total / limit)}
+                  </span>
+                  <button
+                    onClick={() => setPage((p) => (p < Math.ceil(total / limit) ? p + 1 : p))}
+                    disabled={page >= Math.ceil(total / limit)}
+                    className="px-4 py-2 border rounded disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

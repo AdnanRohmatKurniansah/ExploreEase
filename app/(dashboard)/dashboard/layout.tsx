@@ -4,6 +4,7 @@ import {
   BookIcon,
   Home,
   Map,
+  MessageCircle,
   PanelLeft,
   Plane,
   Settings,
@@ -82,6 +83,10 @@ function DesktopNav() {
 
         <NavItem href="/dashboard/transactions" label="Transactions">
           <BookIcon className="h-5 w-5" />
+        </NavItem>
+
+        <NavItem href="/dashboard/contact" label="Contact">
+          <MessageCircle className="h-5 w-5" />
         </NavItem>
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -163,6 +168,13 @@ function MobileNav() {
           >
             <BookIcon className="h-5 w-5" />
             Transactions
+          </Link>
+          <Link
+            href="/dashboard/contact"
+            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+          >
+            <MessageCircle className="h-5 w-5" />
+            Contact
           </Link>
         </nav>
       </SheetContent>

@@ -20,7 +20,7 @@ type ContactFormData = z.infer<typeof ContactSchema>
 const ContactForm = () => {
   const router = useRouter()
 
-  const { register, handleSubmit, formState: { errors }, control } = useForm<ContactFormData>({
+  const { register, handleSubmit, formState: { errors }, control, reset } = useForm<ContactFormData>({
     resolver: zodResolver(ContactSchema)
   })
 
@@ -38,8 +38,7 @@ const ContactForm = () => {
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries({ queryKey: ['contact'] })
-      router.push('/contact')
-      router.refresh()
+      reset()
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || 'Failed to send')

@@ -79,7 +79,7 @@ const BlogGrid = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
         {articles.map((article, i) => (
-          <Link key={i} href={`/blog/${article.slug}`} className="group block">
+          <Link key={i} href={article.slug} className="group block">
             <Card className="overflow-hidden gap-0 p-0 hover:shadow-md transition-shadow h-full">
               <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
                 <Image alt={article.title} src={article.image} fill className="object-cover transition-transform duration-300 group-hover:scale-105"/>
