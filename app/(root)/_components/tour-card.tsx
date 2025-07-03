@@ -12,7 +12,7 @@ import { Button } from '@/app/components/ui/button'
 const TourCard = ({ tour }: { tour: Tours }) => {
   return (
     <Link href={`/tours/${tour.slug}`} className="group block">
-      <Card className="overflow-hidden gap-0 p-3 hover:shadow-md transition-shadow h-full">
+      <Card className="overflow-hidden gap-0 p-3 hover:shadow-md transition-shadow">
         <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
           <Image alt={tour.title} src={tour.image} fill className="object-cover transition-transform duration-300 group-hover:scale-105"/>
 

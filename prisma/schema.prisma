@@ -108,3 +108,17 @@ model BookingTransactions {
   updated_at DateTime @updatedAt
 }
 
+model Contact {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  email String 
+  status Status @default(Notread)
+  message String 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum Status {
+  Read
+  Notread
+}

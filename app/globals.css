@@ -52,7 +52,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
   --primary: #d4483b;
-  --primary-transparent: rgb(212, 72, 59, 0.2);
+  --primary-transparent: rgb(212, 72, 59, 0.1);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: #FBBE06;
   --secondary-foreground: oklch(0.208 0.042 265.755);
@@ -128,47 +128,8 @@
 	outline: none !important;
 }
 
-h1.tiptap-heading {
-	@apply mb-6 mt-8 text-4xl font-bold;
-}
-
-h2.tiptap-heading {
-	@apply mb-4 mt-6 text-3xl font-bold;
-}
-
-h3.tiptap-heading {
-	@apply mb-3 mt-4 text-xl font-bold;
-}
-
-h1.tiptap-heading:first-child,
-h2.tiptap-heading:first-child,
-h3.tiptap-heading:first-child {
-	margin-top: 0;
-}
-
-h1.tiptap-heading + h2.tiptap-heading,
-h1.tiptap-heading + h3.tiptap-heading,
-h2.tiptap-heading + h1.tiptap-heading,
-h2.tiptap-heading + h3.tiptap-heading,
-h3.tiptap-heading + h1.tiptap-heading,
-h3.tiptap-heading + h2.tiptap-heading {
-	margin-top: 0;
-}
-
-.tiptap p.is-editor-empty:first-child::before {
-	@apply pointer-events-none float-left h-0 text-accent-foreground;
-	content: attr(data-placeholder);
-}
-
-.tiptap ul,
-.tiptap ol {
-	padding: 0 1rem;
-}
-
-.tiptap blockquote {
-	border-left: 3px solid gray;
-	margin: 1.5rem 0;
-	padding-left: 1rem;
+.bg-primary-transparent {
+  background-color: var(--primary-transparent);
 }
 
 /* Page */
@@ -176,6 +137,10 @@ h3.tiptap-heading + h2.tiptap-heading {
 
 .section-page {
   padding-top: 80px;
+  padding-bottom: 80px;
+}
+.section-page.sm {
+  padding-top: 50px;
   padding-bottom: 80px;
 }
 

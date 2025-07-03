@@ -64,9 +64,11 @@ export type Tours = {
     updated_at: Date,
     category?: {
         name: string
+        slug: string
     }
     destination?: {
         name: string
+        slug: string
     }
 }
 
@@ -85,6 +87,16 @@ export type ToursItinerary = {
     description: string,
     tourId: string,
     image: string,
+    created_at: Date,
+    updated_at: Date,
+}
+
+export type Contact = {
+    id: string
+    name: string,
+    status: string,
+    email: string,
+    message: string,
     created_at: Date,
     updated_at: Date,
 }
