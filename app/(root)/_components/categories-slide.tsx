@@ -39,7 +39,7 @@ const CategoriesSlide = async () => {
             <CarouselContent>
               {randomCategories.map((category: Categories, i: number) => (
                 <CarouselItem key={i} className="group basis-1/3 md:basis-1/4 text-center lg:basis-1/6 px-4 md:px-7 transition-all duration-300">
-                  <Link href={`/category/${category.slug}`}>
+                  <Link href={`/tours/category/${category.slug}`}>
                     <div className="aspect-square rounded-full overflow-hidden relative w-full">
                       <Image alt={category.name} src={category.icon} fill className="object-cover transition-transform duration-300 group-hover:scale-110"/>
                     </div>

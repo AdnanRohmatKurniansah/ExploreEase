@@ -18,11 +18,13 @@ import Image from 'next/image'
 type Props = {
   categories: Categories[]
   destinations: Destinations[]
+  initialCategorySlug?: string
+  initialDestinationSlug?: string
 }
 
-const ClientTourPage = ({ categories, destinations }: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [selectedDestination, setSelectedDestination] = useState('all')
+const ClientTourPage = ({ categories, destinations, initialCategorySlug, initialDestinationSlug }: Props) => {
+  const [selectedCategory, setSelectedCategory] = useState(initialCategorySlug || 'all')
+  const [selectedDestination, setSelectedDestination] = useState(initialDestinationSlug || 'all')
   const [priceRange, setPriceRange] = useState([500000])
   const [tours, setTours] = useState<Tours[]>([])
   const [loading, setLoading] = useState(false)
@@ -35,7 +37,7 @@ const ClientTourPage = ({ categories, destinations }: Props) => {
   const fetchFilteredTours = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('/api/tours/search', {
+      const res = await axios.get('/api/tours/filter', {
         params: {
           category: selectedCategory,
           destination: selectedDestination,

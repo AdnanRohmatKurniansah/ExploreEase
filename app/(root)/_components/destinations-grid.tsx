@@ -73,7 +73,7 @@ const DestinationGrid = async () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
         {firstRow.map((destination, i) => (
-          <Link key={i} href={`/destinations/${destination.slug}`} className="group block">
+          <Link key={i} href={`/tours/destination/${destination.slug}`} className="group block">
             <Card className="overflow-hidden gap-0 p-0 hover:shadow-md transition-shadow h-full">
                 <div className="relative w-full aspect-[6/3] rounded-md overflow-hidden">
                     <div className="absolute top-5 left-5 z-20 text-white">
@@ -96,7 +96,7 @@ const DestinationGrid = async () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
         {secondRow.map((destination, i) => (
-          <Link key={i + 3} href={`/destinations/${destination.slug}`} className="group block">
+          <Link key={i + 3} href={`/tours/destination/${destination.slug}`} className="group block">
             <Card className="overflow-hidden gap-0 p-0 hover:shadow-md transition-shadow h-full">
                 <div className="relative w-full aspect-[7/3] rounded-md overflow-hidden">
                     <div className="absolute top-5 left-5 z-20 text-white">
