@@ -67,14 +67,14 @@ const Footer = async ({
       title: "Categories",
       links: randomCategories.map((cat) => ({
         text: cat.name,
-        url: `/categories/${cat.slug}`,
+        url: `/tours/category/${cat.slug}`,
       })),
     },
     {
       title: "Destinations",
       links: randomDestinations.map((det) => ({
         text: det.name,
-        url: `/destinations/${det.slug}`,
+        url: `/tours/destination/${det.slug}`,
       })),
     },
     ...menuItems,

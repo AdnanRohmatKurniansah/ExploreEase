@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
+import { ArrowRightCircle } from 'lucide-react';
 
 const slides = [
   {
@@ -62,7 +63,7 @@ export default function HeroCarousel() {
             </h2>
             <p className="mt-4 text-md">{slide.subtitle}</p>
             <Button asChild className="mt-6 bg-primary text-sm md:text-md px-4 py-3 rounded-full w-fit">
-              <Link href="/tours">{slide.cta}</Link>
+              <Link href="/tours">{slide.cta} <ArrowRightCircle className='w-5 ms-2' /></Link>
             </Button>
           </div>
 

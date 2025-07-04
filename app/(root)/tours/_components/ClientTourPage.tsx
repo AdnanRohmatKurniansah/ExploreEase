@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FilterTour from '../_components/FilterTour'
 import TourCard from '@/app/(root)/_components/tour-card'
 import {
@@ -11,9 +11,10 @@ import {
   BreadcrumbSeparator,
 } from '@/app/components/ui/breadcumb'
 import { Categories, Destinations, Tours } from '@/app/types/type'
-import axios from 'axios'
 import TourCardSkeleton from '../../_components/tour-card-skeleton'
 import Image from 'next/image'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 type Props = {
   categories: Categories[]
@@ -22,43 +23,46 @@ type Props = {
   initialDestinationSlug?: string
 }
 
-const ClientTourPage = ({ categories, destinations, initialCategorySlug, initialDestinationSlug }: Props) => {
+const ClientTourPage = ({
+  categories,
+  destinations,
+  initialCategorySlug,
+  initialDestinationSlug,
+}: Props) => {
   const [selectedCategory, setSelectedCategory] = useState(initialCategorySlug || 'all')
   const [selectedDestination, setSelectedDestination] = useState(initialDestinationSlug || 'all')
   const [priceRange, setPriceRange] = useState([500000])
-  const [tours, setTours] = useState<Tours[]>([])
-  const [loading, setLoading] = useState(false)
-
   const [page, setPage] = useState(1)
   const limit = 12
-  const [total, setTotal] = useState(0)
 
+  const fetchTours = async () => {
+    const res = await axios.get('/api/tours/filter', {
+      params: {
+        category: selectedCategory,
+        destination: selectedDestination,
+        price: priceRange[0],
+        page,
+        limit,
+      },
+    })
+    return res.data
+  }
 
-  const fetchFilteredTours = async () => {
-    setLoading(true)
-    try {
-      const res = await axios.get('/api/tours/filter', {
-        params: {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['tours', selectedCategory, selectedDestination, priceRange[0], page],
+    queryFn: () =>
+      axios.get('/api/tours/filter', {
+          params: {
           category: selectedCategory,
           destination: selectedDestination,
           price: priceRange[0],
           page,
           limit,
         },
-      })
-      setTours(res.data.tours)
-      setTotal(res.data.total)
-    } catch (error) {
-      console.error('Failed to fetch tours:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchFilteredTours()
-    setPage(1)
-  }, [selectedCategory, selectedDestination, priceRange, page])
+      }).then(res => res.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  })
 
   return (
     <div className='relative w-full'>
@@ -92,13 +96,15 @@ const ClientTourPage = ({ categories, destinations, initialCategorySlug, initial
         </div>
 
         <div className="md:col-span-3">
-          {loading ? (
+          {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
                 <TourCardSkeleton key={i} />
               ))}
             </div>
-          ) : tours.length === 0 ? (
+          ) : isError || !data?.tours ? (
+            <div className="text-center text-red-600">Failed to fetch tours.</div>
+          ) : data.tours.length === 0 ? (
             <div className="not-found flex flex-col items-center justify-center h-2/3 text-center">
               <div className="w-[150px] md:w-[240px] aspect-square relative mb-4">
                 <Image src="/images/not-found.png" fill alt="not found img" className="object-contain" />
@@ -108,11 +114,12 @@ const ClientTourPage = ({ categories, destinations, initialCategorySlug, initial
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {tours.map((tour, i) => (
+                {data.tours.map((tour: Tours, i: number) => (
                   <TourCard key={i} tour={tour} />
                 ))}
               </div>
-              {total > limit && (
+
+              {data.total > limit && (
                 <div className="mt-8 flex justify-center gap-4">
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -122,11 +129,11 @@ const ClientTourPage = ({ categories, destinations, initialCategorySlug, initial
                     Previous
                   </button>
                   <span className="px-4 py-2 font-medium">
-                    Page {page} of {Math.ceil(total / limit)}
+                    Page {page} of {Math.ceil(data.total / limit)}
                   </span>
                   <button
-                    onClick={() => setPage((p) => (p < Math.ceil(total / limit) ? p + 1 : p))}
-                    disabled={page >= Math.ceil(total / limit)}
+                    onClick={() => setPage((p) => (p < Math.ceil(data.total / limit) ? p + 1 : p))}
+                    disabled={page >= Math.ceil(data.total / limit)}
                     className="px-4 py-2 border rounded disabled:opacity-50"
                   >
                     Next

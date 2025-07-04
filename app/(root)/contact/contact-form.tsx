@@ -18,8 +18,6 @@ import { z } from 'zod'
 type ContactFormData = z.infer<typeof ContactSchema>
 
 const ContactForm = () => {
-  const router = useRouter()
-
   const { register, handleSubmit, formState: { errors }, control, reset } = useForm<ContactFormData>({
     resolver: zodResolver(ContactSchema)
   })

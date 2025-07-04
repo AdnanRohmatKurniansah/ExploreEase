@@ -64,7 +64,7 @@ const Navbar = ({
     { title: "Contact", url: "/contact" },
   ],
   option = {
-    wishlist: { title: "Wishlist", url: "#" },
+    wishlist: { title: "Wishlist", url: "/wishlist" },
   },
 }: NavbarProps) => {
   return (
@@ -100,9 +100,9 @@ const Navbar = ({
           {/* Wishlist */}
           <div className="flex items-center gap-2 w-1/3 justify-end">
             <Button asChild size="default">
-              <a href={option.wishlist.url}>
+              <Link className="group" href={option.wishlist.url}>
                 <Heart className="mr-2" /> {option.wishlist.title}
-              </a>
+              </Link>
             </Button>
           </div>
         </nav>
