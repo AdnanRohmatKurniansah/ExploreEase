@@ -1,5 +1,5 @@
 import prisma from '@/app/lib/prisma'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ClientTourPage from './_components/ClientTourPage'
 
 const Page = async () => {
@@ -7,7 +7,9 @@ const Page = async () => {
   const destinations = await prisma.destinations.findMany()
 
   return (
-    <ClientTourPage categories={categories} destinations={destinations} />
+    <Suspense>
+      <ClientTourPage categories={categories} destinations={destinations} />
+    </Suspense> 
   )
 }
 

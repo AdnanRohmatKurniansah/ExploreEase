@@ -1,5 +1,6 @@
 import prisma from '@/app/lib/prisma'
 import ClientTourPage from '../../_components/ClientTourPage'
+import { Suspense } from 'react'
 
 type Props = {
   params: Promise<{
@@ -14,11 +15,13 @@ const Page = async ({ params }: Props) => {
   const destinations = await prisma.destinations.findMany()
 
   return (
-    <ClientTourPage
-      categories={categories}
-      destinations={destinations}
-      initialDestinationSlug={slug}
-    />
+    <Suspense>
+      <ClientTourPage
+        categories={categories}
+        destinations={destinations}
+        initialDestinationSlug={slug}
+      />
+    </Suspense>
   )
 }
 
