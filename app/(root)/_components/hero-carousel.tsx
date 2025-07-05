@@ -5,9 +5,11 @@ import { Button } from '@/app/components/ui/button';
 import { cn } from '@/app/lib/utils';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { ArrowRightCircle } from 'lucide-react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
+import { Categories, Destinations } from '@/app/types/type';
+import { useRouter } from 'next/navigation';
 
 const slides = [
   {
@@ -26,19 +28,34 @@ const slides = [
     title: 'Discover the Wonders of the World with Exploreease',
     subtitle: 'Find your dream destination and enjoy unforgettable travel experiences with our curated tour packages.',
     cta: 'Explore Tours',
-    img: '/images/banner/banner-3.png'
-  }
+    img: '/images/banner/banner-3.png',
+  },
 ];
 
-export default function HeroCarousel() {
+type Props = {
+  categories: Categories[];
+  destinations: Destinations[];
+};
+
+export default function HeroCarousel({ categories, destinations }: Props) {
   const [current, setCurrent] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedDestination, setSelectedDestination] = useState('all');
+  const router = useRouter();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000); 
-
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedCategory !== 'all') params.set('category', selectedCategory);
+    if (selectedDestination !== 'all') params.set('destination', selectedDestination);
+    router.push(`/tours?${params.toString()}`);
+  };
 
   return (
     <div className="relative w-full h-[85vh] bg-white rounded-b-3xl">
@@ -63,7 +80,7 @@ export default function HeroCarousel() {
             </h2>
             <p className="mt-4 text-md">{slide.subtitle}</p>
             <Button asChild className="mt-6 bg-primary text-sm md:text-md px-4 py-3 rounded-full w-fit">
-              <Link href="/tours">{slide.cta} <ArrowRightCircle className='w-5 ms-2' /></Link>
+              <Link href="/tours">{slide.cta} <ArrowRightCircle className="w-5 ms-2" /></Link>
             </Button>
           </div>
 
@@ -72,9 +89,7 @@ export default function HeroCarousel() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={cn(
-                  'rounded-2xl overflow-hidden shadow-lg w-[200px] h-[110px] border-1 transition-transform hover:scale-[1.03]'
-                )}
+                className="rounded-2xl overflow-hidden shadow-lg w-[200px] h-[110px] border-1 transition-transform hover:scale-[1.03]"
               >
                 <Image width={0} height={0} sizes="100vw" src={s.img} alt={`thumb-${i}`} className="h-full object-cover w-auto" />
               </button>
@@ -83,18 +98,41 @@ export default function HeroCarousel() {
         </div>
       ))}
 
-
       <div className="absolute -bottom-50 md:-bottom-8 w-[90%] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-xl z-30 p-6">
         <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-end">
           <div className="flex-1">
             <Label className="block text-sm font-semibold mb-1">Where</Label>
-            <Input type="text" className="w-full border px-4 py-2 rounded-md" placeholder="Destinations" />
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">All</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.slug}>{category.name}</SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex-1">
-            <Label className="block text-sm font-semibold mb-1">Type</Label>
-            <Input type="text" className="w-full border px-4 py-2 rounded-md" placeholder="Categories" />
+            <Label className="block text-sm font-semibold mb-1">Destination</Label>
+            <Select value={selectedDestination} onValueChange={setSelectedDestination}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a destination" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">All</SelectItem>
+                  {destinations.map((destination) => (
+                    <SelectItem key={destination.id} value={destination.slug}>{destination.name}</SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
-          <Button className="bg-primary px-5 py-4 text-md rounded-md">
+          <Button className="bg-primary px-5 py-4 text-md rounded-md" onClick={handleSearch}>
             Search
           </Button>
         </div>

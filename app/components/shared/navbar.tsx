@@ -27,6 +27,9 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "../ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 
 interface MenuItem {
   title: string;
@@ -67,6 +70,22 @@ const Navbar = ({
     wishlist: { title: "Wishlist", url: "/wishlist" },
   },
 }: NavbarProps) => {
+  const router = useRouter()
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    const params = new URLSearchParams(window.location.search)
+
+    if (search.trim()) {
+      params.set('search', search.trim())
+    } else {
+      params.delete('search')
+    }
+
+    router.push(`/tours?${params.toString()}`)
+  }
+
   return (
     <section className="sticky top-0 z-50 bg-white py-3 px-5 md:px-14 border-b shadow-sm">
       <div className="container">
@@ -78,14 +97,21 @@ const Navbar = ({
               <Image src={logo.src} width={0} height={0} sizes="100vw" className="h-14 w-auto" alt={logo.alt} />
             </Link>
             <div className="relative w-full ps-2">
-              <span className="absolute inset-y-0 start-4 flex items-center text-gray-400">
-                <Search className="w-4 h-4" />
-              </span>
-              <Input
-                type="text"
-                placeholder="Search tours or destinations"
-                className="w-full rounded-full border-2 py-2 ps-10 pe-4 text-sm focus:outline-none"
-              />
+              <form onSubmit={handleSearch} className="relative w-full ps-2">
+                <span className="absolute inset-y-0 start-4 flex items-center text-gray-400">
+                  <Search className="w-4 h-4" />
+                </span>
+                <Input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSearch(e)
+                  }}
+                  placeholder="Search tours or destinations"
+                  className="w-full rounded-full border-2 py-2 ps-10 pe-4 text-sm focus:outline-none"
+                />
+              </form>
             </div>
           </div>
 
@@ -114,13 +140,22 @@ const Navbar = ({
             <Link href={logo.url} className="flex items-center gap-2">
               <Image width={0} height={0} sizes="100vw" src={logo.src} className="max-h-12 w-auto" alt={logo.alt} />
             </Link>
-            <div className="search ps-2 flex items-center rounded-full border-2 w-1/2">
-              <Search className="h-4" />
-              <input
-                type="text"
-                placeholder="Search tours or destinations"
-                className="w-full rounded-md px-2 py-2 text-sm focus:outline-none focus:ring-none"
-              />
+            <div className="search ps-2 flex items-center relative w-2/3 pe-4">
+              <form onSubmit={handleSearch} className="relative w-full ps-2">
+                <span className="absolute inset-y-0 start-4 pe-4 flex items-center text-gray-400">
+                  <Search className="w-4 h-4" />
+                </span>
+                <Input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSearch(e)
+                  }}
+                  placeholder="Search tours"
+                  className="w-full border-2 px-2 py-2 ps-10 rounded-full text-sm focus:outline-none focus:ring-none"
+                />
+              </form>
             </div>
             <Sheet>
               <SheetTrigger asChild>

@@ -5,12 +5,16 @@ import AboutSection from './_components/about';
 import TourGrid from './_components/tour-grid';
 import DestinationGrid from './_components/destinations-grid';
 import BlogGrid from './_components/blog-grid';
+import prisma from '../lib/prisma';
 
-const Page = () => {
+const Page = async () => {
+  const categories = await prisma.categories.findMany()
+  const destinations = await prisma.destinations.findMany()
+
   return (
     <div className='main'>
       <section className='hero-carousel'>
-        <HeroCarousel />
+        <HeroCarousel categories={categories} destinations={destinations} />
       </section>
       <section className='categories-slide'>
         <CategoriesSlide />

@@ -6,8 +6,11 @@ export const GET = async (req: NextRequest) => {
 
   const category = searchParams.get('category')
   const destination = searchParams.get('destination')
+  
   const price = parseInt(searchParams.get('price') || '0', 10)
   const priceMax = 10000000
+
+  const search = searchParams.get('search')
 
   const page = parseInt(searchParams.get('page') || '1', 10)
   const limit = parseInt(searchParams.get('limit') || '12', 10)
@@ -17,6 +20,12 @@ export const GET = async (req: NextRequest) => {
     const [tours, total] = await Promise.all([
       prisma.tours.findMany({
         where: {
+          ...(search?.trim() && {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          }),
           ...(category !== 'all' && { category: { slug: category! } }),
           ...(destination !== 'all' && { destination: { slug: destination! } }),
           OR: [
@@ -44,6 +53,12 @@ export const GET = async (req: NextRequest) => {
       }),
       prisma.tours.count({
         where: {
+          ...(search?.trim() && {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          }),
           ...(category !== 'all' && { category: { slug: category! } }),
           ...(destination !== 'all' && { destination: { slug: destination! } }),
           OR: [

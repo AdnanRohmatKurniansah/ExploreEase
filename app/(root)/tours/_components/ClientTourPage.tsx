@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FilterTour from '../_components/FilterTour'
 import TourCard from '@/app/(root)/_components/tour-card'
 import {
@@ -15,49 +15,75 @@ import TourCardSkeleton from '../../_components/tour-card-skeleton'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useDebounce } from '@/app/hooks/useDebounce'
 
 type Props = {
   categories: Categories[]
   destinations: Destinations[]
-  initialCategorySlug?: string
   initialDestinationSlug?: string
+  initialCategorySlug?: string
 }
 
-const ClientTourPage = ({
-  categories,
-  destinations,
-  initialCategorySlug,
-  initialDestinationSlug,
-}: Props) => {
-  const [selectedCategory, setSelectedCategory] = useState(initialCategorySlug || 'all')
-  const [selectedDestination, setSelectedDestination] = useState(initialDestinationSlug || 'all')
-  const [priceRange, setPriceRange] = useState([500000])
-  const [page, setPage] = useState(1)
+const ClientTourPage = ({ categories, destinations, initialDestinationSlug, initialCategorySlug }: Props) => {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialCategorySlug || searchParams.get('category') || 'all')
+  const [selectedDestination, setSelectedDestination] = useState(
+    initialDestinationSlug || searchParams.get('destination') || 'all'
+  )
+  const [priceRange, setPriceRange] = useState([parseInt(searchParams.get('price') || '500000', 10)])
+  const [page, setPage] = useState(parseInt(searchParams.get('page') || '1', 10))
+  const search = searchParams.get('search') || ''
   const limit = 12
 
-  const fetchTours = async () => {
-    const res = await axios.get('/api/tours/filter', {
-      params: {
-        category: selectedCategory,
-        destination: selectedDestination,
-        price: priceRange[0],
-        page,
-        limit,
-      },
-    })
-    return res.data
-  }
+  const debouncedCategory = useDebounce(selectedCategory)
+  const debouncedDestination = useDebounce(selectedDestination)
+  const debouncedPrice = useDebounce(priceRange)
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+
+    if (debouncedPrice[0] > 0) params.set('price', String(debouncedPrice[0]))
+    if (page > 1) params.set('page', String(page))
+    if (search) params.set('search', search)
+
+    let path = '/tours'
+
+    if (initialDestinationSlug || (debouncedDestination !== 'all' && debouncedDestination !== selectedDestination)) {
+      path = `/tours/destination/${debouncedDestination}`
+      if (debouncedCategory !== 'all') params.set('category', debouncedCategory)
+    } else if (initialCategorySlug || (debouncedCategory !== 'all' && debouncedCategory !== selectedCategory)) {
+      path = `/tours/category/${debouncedCategory}`
+      if (debouncedDestination !== 'all') params.set('destination', debouncedDestination)
+    } else {
+      if (debouncedCategory !== 'all') params.set('category', debouncedCategory)
+      if (debouncedDestination !== 'all') params.set('destination', debouncedDestination)
+    }
+
+    const queryString = params.toString()
+    router.replace(`${path}${queryString ? `?${queryString}` : ''}`)
+  }, [
+    debouncedCategory,
+    debouncedDestination,
+    debouncedPrice,
+    page,
+    search,
+  ])
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['tours', selectedCategory, selectedDestination, priceRange[0], page],
+    queryKey: ['tours', debouncedCategory, debouncedDestination, debouncedPrice[0], page, search],
     queryFn: () =>
       axios.get('/api/tours/filter', {
-          params: {
-          category: selectedCategory,
-          destination: selectedDestination,
-          price: priceRange[0],
+        params: {
+          category: debouncedCategory,
+          destination: debouncedDestination,
+          price: debouncedPrice[0],
           page,
           limit,
+          search: search.trim() || undefined,
         },
       }).then(res => res.data),
     staleTime: 60 * 1000,
@@ -65,10 +91,10 @@ const ClientTourPage = ({
   })
 
   return (
-    <div className='relative w-full'>
+    <div className="relative w-full">
       <div className="breadcumb bg-primary-transparent border-b text-black h-10 px-5 md:px-15 flex items-center">
         <Breadcrumb>
-          <BreadcrumbList className='text-gray-700'>
+          <BreadcrumbList className="text-gray-700">
             <BreadcrumbItem>
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
@@ -87,11 +113,20 @@ const ClientTourPage = ({
             categories={categories}
             destinations={destinations}
             selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+            setSelectedCategory={(val) => {
+              setPage(1)
+              setSelectedCategory(val)
+            }}
             selectedDestination={selectedDestination}
-            setSelectedDestination={setSelectedDestination}
+            setSelectedDestination={(val) => {
+              setPage(1)
+              setSelectedDestination(val)
+            }}
             priceRange={priceRange}
-            setPriceRange={setPriceRange}
+            setPriceRange={(val) => {
+              setPage(1)
+              setPriceRange(val)
+            }}
           />
         </div>
 

@@ -37,7 +37,7 @@ const FilterTour = ({
     <Accordion type="multiple" defaultValue={['category', 'destination', 'price']} className="w-full space-y-2">
       <AccordionItem value="category">
         <AccordionTrigger className="text-sm font-medium">Category</AccordionTrigger>
-        <AccordionContent className="pt-2">
+        <AccordionContent className="pt-2"> 
           <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className="space-y-2">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="all" id="cat-all" />

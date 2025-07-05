@@ -65,7 +65,7 @@ const Page = async () => {
         </div>
         <div className="main grid grid-cols-1 md:grid-cols-4 gap-8 pt-3 justify-center items-center">
           {destinationsWithCount.map((destination, i) => (
-            <Link key={i + 3} href={`/destinations/${destination.slug}`} className="group block">
+            <Link key={i + 3} href={`/tours/destination/${destination.slug}`} className="group block">
                 <Card className="overflow-hidden gap-0 p-0 hover:shadow-md transition-shadow h-full">
                     <div className="relative w-full aspect-[7/3] md:aspect-square rounded-md overflow-hidden">
                         <div className="absolute top-5 left-5 z-20 text-white">
