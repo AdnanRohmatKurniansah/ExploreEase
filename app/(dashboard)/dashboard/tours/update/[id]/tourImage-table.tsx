@@ -18,10 +18,10 @@ import Pagination from '@/app/components/shared/pagination'
 import DeleteConfirmationDialog from '@/app/components/shared/delete-modal'
 
 const TourImageTable = ({ tourId }: {tourId: string}) => {
-  const useTourImage = (page: number, limit: number) => useQuery({
-    queryKey: ['toursImage', page],
+  const useTourImage = (page: number, limit: number, tourId: string) => useQuery({
+    queryKey: ['toursImage', page, tourId],
     queryFn: () =>
-      axios.get(`/api/tours/image?page=${page}&limit=${limit}`).then(res => res.data),
+      axios.get(`/api/tours/image?page=${page}&limit=${limit}&tourId=${tourId}`).then(res => res.data),
     staleTime: 60 * 1000,
     retry: 3,
   })
@@ -33,7 +33,7 @@ const TourImageTable = ({ tourId }: {tourId: string}) => {
   const limit = 10
   const queryClient = useQueryClient()
 
-  const { data, error, isLoading } = useTourImage(page, limit)
+  const { data, error, isLoading } = useTourImage(page, limit, tourId)
 
   const DeleteTourImage = useMutation({
     mutationFn: async (id: string) => {

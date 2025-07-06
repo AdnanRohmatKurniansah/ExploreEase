@@ -134,6 +134,18 @@
 
 /* Page */
 
+.highlight ul,
+.highlight ol {
+  list-style: initial;     
+  margin-left: 1.25rem;   
+  padding-left: 1.25rem;   
+}
+
+.highlight li {
+  margin-bottom: 0.25rem; 
+}
+
+
 
 .section-page {
   padding-top: 80px;

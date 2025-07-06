@@ -108,7 +108,7 @@ export default function HeroCarousel({ categories, destinations }: Props) {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="all">Select a category</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.slug}>{category.name}</SelectItem>
                   ))}
@@ -124,7 +124,7 @@ export default function HeroCarousel({ categories, destinations }: Props) {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="all">Select a destination</SelectItem>
                   {destinations.map((destination) => (
                     <SelectItem key={destination.id} value={destination.slug}>{destination.name}</SelectItem>
                   ))}

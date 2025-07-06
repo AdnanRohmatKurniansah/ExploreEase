@@ -101,9 +101,9 @@ model BookingTransactions {
   is_paid Boolean
   total_participant Int
   ticketId String @db.ObjectId
-  started_at DateTime
-  proof String
+  selectedDate DateTime
   booking_trx_id String
+  status Status @default(Notread)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
