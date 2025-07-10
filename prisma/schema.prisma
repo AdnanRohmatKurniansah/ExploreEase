@@ -69,6 +69,7 @@ model Tours {
   exclude String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  bookingTransaction BookingTransactions[] @relation("BookingTours")
 
   category Categories @relation("CategoryTours", fields: [categoryId], references: [id])
   destination Destinations @relation("DestinationTours", fields: [destinationId], references: [id])
@@ -98,14 +99,18 @@ model BookingTransactions {
   phone_number String
   email String
   total_amount Int
-  is_paid Boolean
   total_participant Int
-  ticketId String @db.ObjectId
+  tourId String @db.ObjectId
   selectedDate DateTime
-  booking_trx_id String
-  status Status @default(Notread)
+  message String?
+  snap_token String
+  payment_method String?
+  payment_status PaymentStatus @default(Unpaid)
+  read_status Status @default(Notread)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  tour Tours @relation("BookingTours", fields: [tourId], references: [id])
 }
 
 model Contact {
@@ -118,6 +123,10 @@ model Contact {
   updated_at DateTime @updatedAt
 }
 
+enum PaymentStatus {
+  Unpaid
+  Paid
+}
 enum Status {
   Read
   Notread

@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={ibmPlexSans.variable}>
-      <body className="antialiased flex min-h-screen w-full flex-col">
+      <body className="antialiased flex min-h-screen w-full flex-col" suppressHydrationWarning={true}>
         <QueryClientProvider>
           <Toaster richColors position="top-right" closeButton />
           <AuthProvider>

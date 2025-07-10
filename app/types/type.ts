@@ -86,7 +86,6 @@ export type ToursItinerary = {
     title: string,
     description: string,
     tourId: string,
-    image: string,
     created_at: Date,
     updated_at: Date,
 }
@@ -99,4 +98,22 @@ export type Contact = {
     message: string,
     created_at: Date,
     updated_at: Date,
+}
+
+export type BookingTransactions = {
+    id: string
+    name: string
+    phone_number: string
+    email: string
+    total_amount: number
+    total_participant: number
+    tourId: string
+    selectedDate: Date
+    message?: string | null
+    snap_token: string
+    payment_method?: string | null
+    payment_status: string
+    read_status: string
+    created_at: Date
+    updated_at: Date
 }

@@ -10,8 +10,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Tours } from '@/app/types/type'
 import TourCard from '../../_components/tour-card'
 import { Label } from '@radix-ui/react-dropdown-menu'
-import DatePicker from '../../_components/date-picker'
 import { Input } from '@/app/components/ui/input'
+import TourSidebar from './_components/TourSidebar'
 
 type Props = {
   params: Promise<{
@@ -193,23 +193,8 @@ const Page = async ({ params }: Props) => {
         </div>
 
         {/* Sidebar */}
-        <div className="sidebar relative">
-          <div className="border rounded-xl bg-white p-4 shadow-md">
-            <form>
-              <h2 className="text-lg font-semibold mb-1">Book Your Journey</h2>
-              <p className='text-gray-700 text-[15px] mb-5'>Pick Your Perfect Day</p>
-
-              <div className="mb-3">
-                <Label className="block text-sm text-gray-700 mb-1">Select a date</Label>
-                <DatePicker />
-              </div>
-
-              <div className="mb-3">
-                <Label className="block text-sm text-gray-700 mb-1">Number of participants</Label>
-                <Input id={'price'} type={'number'} min={'0'} defaultValue={1} />
-              </div>
-            </form>
-          </div>
+        <div className="sidebar relative md:sticky md:top-24 h-fit">
+          <TourSidebar tour={tour} />
         </div>
       </div>
       

@@ -45,7 +45,7 @@ const TourActions = ({ tourId }: Props) => {
   }
 
   return (
-    <div className="flex gap-2 shrink-0 mb-4 justify-end">
+    <div className="flex gap-2 shrink-0 mb-4 justify-start md:justify-end">
         <Button variant="outline" size="sm" onClick={CopyUrl}>
             <Share2 className="w-4 h-4 mr-1" /> Share
         </Button>
