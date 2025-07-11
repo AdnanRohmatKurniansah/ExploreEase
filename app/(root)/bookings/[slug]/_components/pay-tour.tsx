@@ -53,7 +53,7 @@ const PayTour = ({ booking, subtotal, discount, total }: Props) => {
       onSuccess: function (result) {
         console.log('Payment success:', result)
         toast.success("Payment Success")
-        router.push(`/thaknyou/${booking.order_id}`)
+        router.push(`/thankyou/${booking.order_id}`)
       },
       onPending: function (result) {
         console.log('Payment pending:', result)
