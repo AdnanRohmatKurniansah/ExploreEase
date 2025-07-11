@@ -103,7 +103,7 @@ model BookingTransactions {
   tourId String @db.ObjectId
   selectedDate DateTime
   message String?
-  order_id String
+  order_id String @unique
   snap_token String
   payment_method String?
   payment_status PaymentStatus @default(Unpaid)

@@ -111,6 +111,7 @@ export type BookingTransactions = {
     selectedDate: Date
     message?: string | null
     snap_token: string
+    order_id: string
     payment_method?: string | null
     payment_status: string
     read_status: string
