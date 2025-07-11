@@ -2,8 +2,6 @@ import { snap } from "@/app/lib/midtransSnap"
 import prisma from "@/app/lib/prisma"
 import { SubmitBookingSchema } from "@/app/validations/BookingValidation"
 import { NextRequest, NextResponse } from "next/server"
-import { sendBookingEmail } from "@/app/lib/sendBookingEmail"
-import { getBaseUrl } from "@/app/lib/baseUrl"
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -49,70 +47,10 @@ export const POST = async (req: NextRequest) => {
         tourId,
         selectedDate,
         message,
+        order_id: parameter.transaction_details.order_id,
         snap_token: token,
       }
     })
-
-    // const tourData = await prisma.tours.findUnique({ 
-    //     where: { 
-    //         id: tourId 
-    //     }
-    // })
-
-    // if (!tourData) {
-    //     return NextResponse.json({
-    //         message: 'Tour not found',
-    //     }, {status: 404})
-    // }
-
-    // const itinerary = await prisma.toursItinerary.findMany({ 
-    //     where: { 
-    //         tourId 
-    //     } 
-    // })
-
-    // const includeIds = JSON.parse(tourData.include || '[]') as string[]
-    // const excludeIds = JSON.parse(tourData.exclude || '[]') as string[]
-
-    // const includes = await prisma.facility.findMany({
-    //     where: {
-    //         id: {
-    //             in: includeIds,
-    //         },
-    //         type: 'include'
-    //     },
-    //         orderBy: {
-    //         title: 'asc',
-    //     }
-    // })
-
-    // const excludes = await prisma.facility.findMany({
-    //     where: {
-    //         id: {
-    //             in: excludeIds,
-    //         },
-    //         type: 'exclude'
-    //     },
-    //         orderBy: {
-    //         title: 'asc',
-    //     }
-    // })
-
-    // const baseUrl = await getBaseUrl() 
-    // const logoUrl = `${baseUrl}/images/logo.png`
-
-    // await sendBookingEmail({
-    //   bookingData,
-    //   receiver: { email },
-    //   sender: { email: process.env.EMAIL_USER || '' },
-    //   tourData,
-    //   itinerary,
-    //   include: includes,
-    //   exclude: excludes,
-    //   baseUrl, 
-    //   logo: logoUrl,
-    // })
-
     return NextResponse.json({
       message: "You have successfully booked",
       data: bookingData

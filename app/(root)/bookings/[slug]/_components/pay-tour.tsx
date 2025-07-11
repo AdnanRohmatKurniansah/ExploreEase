@@ -29,8 +29,6 @@ declare global {
 
 
 const PayTour = ({ booking, subtotal, discount, total }: Props) => {
-  // const router = useRouter()
-
   useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://app.sandbox.midtrans.com/snap/snap.js'
@@ -53,7 +51,6 @@ const PayTour = ({ booking, subtotal, discount, total }: Props) => {
       onSuccess: function (result) {
         console.log('Payment success:', result)
         toast.success("Payment Success")
-        // router.push(`/thankyou/${booking.id}`)
       },
       onPending: function (result) {
         console.log('Payment pending:', result)
