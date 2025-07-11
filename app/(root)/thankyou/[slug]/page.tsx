@@ -3,16 +3,13 @@ import prisma from '@/app/lib/prisma'
 import ThankYouClient from './_components/thankyou-client'
 
 type Props = {
-  searchParams: Promise<{
+  params: Promise<{
     order_id: string
-    transaction_status: string
   }>
 }
 
-const Page = async ({ searchParams }: Props) => {
-  const { order_id, transaction_status } = await searchParams
-
-  if (!order_id) return notFound()
+const Page = async ({ params }: Props) => {
+  const { order_id } = await params
 
   const booking = await prisma.bookingTransactions.findFirst({
     where: {
@@ -24,12 +21,7 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <ThankYouClient
-      booking={{
-        id: booking.id,
-        name: booking.name,
-        total_amount: booking.total_amount,
-      }}
-      transactionStatus={transaction_status}
+      booking={booking}
     />
   )
 }
