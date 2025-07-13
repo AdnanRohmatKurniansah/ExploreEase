@@ -55,7 +55,7 @@ model Facility {
 model Tours {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
-  slug String
+  slug String @unique
   image String
   description String
   highlight String

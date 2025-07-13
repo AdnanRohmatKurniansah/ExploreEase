@@ -13,8 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/components/ui/table"
-import { Button } from '@/app/components/ui/button'
-import Link from 'next/link'
 import PayTour from './_components/pay-tour'
 
 
@@ -27,7 +25,7 @@ type Props = {
 const BookingDetailPage = async ({ params }: Props) => {
   const { id } = await params
 
-  const booking = await prisma.bookingTransactions.findFirst({
+  const booking = await prisma.bookingTransactions.findUnique({
     where: { id },
     include: { 
       tour: true 

@@ -11,7 +11,7 @@ type Props = {
 const Page = async ({ params }: Props) => {
   const { order_id } = await params
 
-  const booking = await prisma.bookingTransactions.findFirst({
+  const booking = await prisma.bookingTransactions.findUnique({
     where: {
       order_id,
     },

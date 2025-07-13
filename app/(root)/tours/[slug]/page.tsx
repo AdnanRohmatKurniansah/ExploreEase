@@ -9,8 +9,6 @@ import Image from 'next/image'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/app/components/ui/carousel'
 import { Tours } from '@/app/types/type'
 import TourCard from '../../_components/tour-card'
-import { Label } from '@radix-ui/react-dropdown-menu'
-import { Input } from '@/app/components/ui/input'
 import TourSidebar from './_components/TourSidebar'
 
 type Props = {
@@ -22,7 +20,7 @@ type Props = {
 const Page = async ({ params }: Props) => {
   const { slug } = await params
 
-  const tour = await prisma.tours.findFirst({
+  const tour = await prisma.tours.findUnique({
     where: { slug },
     include: {
       category: true,
