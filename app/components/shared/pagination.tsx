@@ -12,7 +12,7 @@ type Props = {
 
 const Pagination = ({ page, total, limit, onPageChange }: Props) => {
   return (
-    <div className="flex items-center justify-between w-full text-sm text-muted-foreground">
+    <div className="flex items-center justify-between w-full text-[13px] md:text-sm text-muted-foreground">
       <div>
         Showing <strong>{(page - 1) * limit + 1}</strong> to <strong>{Math.min(page * limit, total)}</strong> of <strong>{total}</strong> data
       </div>

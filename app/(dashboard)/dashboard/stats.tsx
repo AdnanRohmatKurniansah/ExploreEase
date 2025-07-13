@@ -10,7 +10,7 @@ const Stats = async () => {
   const bookings = await prisma.bookingTransactions.count()
 
   return (
-    <Card>
+    <Card className='mb-8 md:mb-0'>
         <CardHeader>
             <CardTitle className='text-lg'>Dashboard Management</CardTitle>
             <CardDescription>

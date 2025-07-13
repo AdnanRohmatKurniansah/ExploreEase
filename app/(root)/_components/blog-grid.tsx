@@ -14,8 +14,8 @@ const articles = [
     image: '/images/blog/blog-1.jpg',
     date: { day: '15', month: 'Jul' },
     author: {
-      name: 'Made Santika',
-      avatar: 'https://randomuser.me/api/portraits/men/31.jpg',
+      name: 'Admin',
+      avatar: '/images/user.png',
     },
   },
   {
@@ -24,8 +24,8 @@ const articles = [
     image: '/images/blog/blog-2.jpg',
     date: { day: '28', month: 'Jun' },
     author: {
-      name: 'Rina Puspita',
-      avatar: 'https://randomuser.me/api/portraits/women/45.jpg',
+      name: 'Admin',
+      avatar: '/images/user.png',
     },
   },
   {
@@ -34,8 +34,8 @@ const articles = [
     image: '/images/blog/blog-3.jpg',
     date: { day: '07', month: 'May' },
     author: {
-      name: 'Ahmad Fauzi',
-      avatar: 'https://randomuser.me/api/portraits/men/27.jpg',
+      name: 'Admin',
+      avatar: '/images/user.png',
     },
   },
   {
@@ -44,8 +44,8 @@ const articles = [
     image: '/images/blog/blog-4.jpg',
     date: { day: '02', month: 'Apr' },
     author: {
-      name: 'Sari Dewi',
-      avatar: 'https://randomuser.me/api/portraits/women/32.jpg',
+      name: 'Admin',
+      avatar: '/images/user.png',
     },
   },
 ]

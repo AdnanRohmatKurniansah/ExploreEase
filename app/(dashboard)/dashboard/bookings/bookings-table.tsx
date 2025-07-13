@@ -111,7 +111,7 @@ const BookingsTable = () => {
                   <TableCell className="font-medium">Rp. {booking.total_amount.toLocaleString('id-ID')}</TableCell>
                   <TableCell className="font-medium">
                     {booking.payment_status === 'Paid' ? (
-                      <Badge variant="default" className="bg-green-500 hover:bg-green-500  text-white">Paid</Badge>
+                      <Badge variant="default" className="bg-blue-500 hover:bg-blue-500  text-white">Paid</Badge>
                     ) : booking.payment_status === 'Pending' ? (
                       <Badge variant="default" className="bg-yellow-500 hover:bg-yellow-500 text-white">Pending</Badge>
                     ) : (

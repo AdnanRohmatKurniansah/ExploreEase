@@ -54,7 +54,7 @@ const TourItineraryTable = ({ tourId }: {tourId: string}) => {
   const { data: toursItinerary, total } = data
 
   return (
-    <div className='main'>
+    <div className='main overflow-x-auto'>
       <div className="flex items-center">
         <div className="flex items-center gap-2 mt-4">
           <Link href={`/dashboard/tours/itinerary/create/${tourId}`}>

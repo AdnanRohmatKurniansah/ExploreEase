@@ -7,37 +7,37 @@ export const POST = async (req: NextRequest) => {
     try {
         const requestData = await req.json();
 
-        const validationData = RegisterSchema.safeParse(requestData)
+        // const validationData = RegisterSchema.safeParse(requestData)
 
-        if (!validationData.success) {
-            return NextResponse.json({
-                message: 'Validation failed',
-                errors: validationData.error
-            }, {status: 400})
-        }
+        // if (!validationData.success) {
+        //     return NextResponse.json({
+        //         message: 'Validation failed',
+        //         errors: validationData.error
+        //     }, {status: 400})
+        // }
 
-        const userExist = await await prisma.user.findUnique({
-             where: {
-                 username: requestData.username
-             }
-        })
-        if (userExist) {
-            return NextResponse.json({
-                message: 'User already exist'
-            }, {status: 409})
-        }
+        // const userExist = await prisma.user.findUnique({
+        //      where: {
+        //          username: requestData.username
+        //      }
+        // })
+        // if (userExist) {
+        //     return NextResponse.json({
+        //         message: 'User already exist'
+        //     }, {status: 409})
+        // }
 
-        const hashedPassword = await hash(requestData.password, 10)
+        // const hashedPassword = await hash(requestData.password, 10)
 
-        requestData.password = hashedPassword
-        const user = await await prisma.user.create({
-           data: requestData
-        })
+        // requestData.password = hashedPassword
+        // const user = await prisma.user.create({
+        //    data: requestData
+        // })
 
-        return NextResponse.json({
-            message: 'Register successfully',
-            data: user
-        })
+        // return NextResponse.json({
+        //     message: 'Register successfully',
+        //     data: user
+        // })
     } catch (error) {
         console.error(error)
         return NextResponse.json({
