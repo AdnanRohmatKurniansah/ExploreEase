@@ -3,6 +3,42 @@ import prisma from "@/app/lib/prisma"
 import { SubmitBookingSchema } from "@/app/validations/BookingValidation"
 import { NextRequest, NextResponse } from "next/server"
 
+export const GET = async (req: NextRequest) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const page = Number(searchParams.get("page") || 1);
+    const limit = Number(searchParams.get("limit") || 10);
+    const offset = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      prisma.bookingTransactions.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: {
+          created_at: "desc",
+        },
+        include: {
+          tour: true
+        }
+      }),
+      prisma.bookingTransactions.count(),
+    ]);
+
+    return NextResponse.json({
+      message: "Bookings Data",
+      data,
+      total,
+      page,
+      limit,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+};
+
 export const POST = async (req: NextRequest) => {
   try {
     const requestData = await req.json()

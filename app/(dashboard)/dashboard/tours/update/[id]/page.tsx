@@ -17,19 +17,19 @@ const Page = async ({ params }: Params) => {
 
   const tour = await prisma.tours.findUnique({
     where: {
-        id: id
+      id: id
     },
     include: {
-        category: {
-          select: {
-            name: true,
-          },
+      category: {
+        select: {
+          name: true,
         },
-        destination: {
-          select: {
-            name: true,
-          },
+      },
+      destination: {
+        select: {
+          name: true,
         },
+      },
     },
   })
 
@@ -38,14 +38,14 @@ const Page = async ({ params }: Params) => {
   }
 
   const categories = await prisma.categories.findMany({
-      orderBy: {
-        name: "asc",
-      },
+    orderBy: {
+      name: "asc",
+    },
   })
   const destinations = await prisma.destinations.findMany({
-      orderBy: {
-        name: "asc",
-      },
+    orderBy: {
+      name: "asc",
+    },
   })
   const includes = await prisma.facility.findMany({
     where: {

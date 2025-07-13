@@ -7,7 +7,7 @@ import { Button } from '@/app/components/ui/button'
 import { MoreHorizontal } from 'lucide-react'
 import axios from 'axios'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Contact } from '@/app/types/type'
+import { BookingTransactions } from '@/app/types/type'
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger
 } from '@/app/components/ui/dropdown-menu'
@@ -20,12 +20,12 @@ import DeleteConfirmationDialog from '@/app/components/shared/delete-modal'
 import { Badge } from '@/app/components/ui/badge'
 import { useRouter } from 'next/navigation'
 
-const ContactTable = () => {
+const BookingsTable = () => {
   const router = useRouter()
-  const useContact = (page: number, limit: number) => useQuery({
-    queryKey: ['contact', page],
+  const useBooking = (page: number, limit: number) => useQuery({
+    queryKey: ['bookings', page],
     queryFn: () =>
-      axios.get(`/api/contact?page=${page}&limit=${limit}`).then(res => res.data),
+      axios.get(`/api/bookings?page=${page}&limit=${limit}`).then(res => res.data),
     staleTime: 60 * 1000,
     retry: 3,
   })
@@ -37,28 +37,28 @@ const ContactTable = () => {
   const limit = 10
   const queryClient = useQueryClient()
 
-  const { data, error, isLoading } = useContact(page, limit)
+  const { data, error, isLoading } = useBooking(page, limit)
 
-  const DeleteContact = useMutation({
+  const DeleteBooking = useMutation({
     mutationFn: async (id: string) => {
-      return await axios.delete(`/api/contact/${id}`)
+      return await axios.delete(`/api/bookings/${id}`)
     },
     onSuccess: () => {
-      toast.success("Contact deleted successfully")
-      queryClient.invalidateQueries({ queryKey: ['contact'] })
+      toast.success("Booking deleted successfully")
+      queryClient.invalidateQueries({ queryKey: ['bookings'] })
       setOpenDialog(false)
     },
     onError: () => {
-      toast.error("Failed to delete contact")
+      toast.error("Failed to delete bookings")
     }
   })
 
   const MarkRead = useMutation({
     mutationFn: async (id: string) => {
-      return await axios.put(`/api/contact/${id}`)
+      return await axios.put(`/api/bookings/${id}`)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['contact'] })
+      queryClient.invalidateQueries({ queryKey: ['bookings'] })
     },
     onError: () => {
       console.error("Can't mark as read")
@@ -68,13 +68,13 @@ const ContactTable = () => {
   if (isLoading) return <TableSkeleton rows={4} columns={4} showImageColumn={false} />
   if (error || !data) return null
 
-  const { data: contact, total } = data
+  const { data: bookings, total } = data
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-lg'>Contact</CardTitle>
-        <CardDescription>Displays a list of contact available.</CardDescription>
+        <CardTitle className='text-lg'>Booking</CardTitle>
+        <CardDescription>Displays a list of bookings available.</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -82,6 +82,9 @@ const ContactTable = () => {
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
+              <TableHead>Tour</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Payment</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created At</TableHead>
               <TableHead className='hidden sm:table-cell'>Updated At</TableHead>
@@ -89,27 +92,42 @@ const ContactTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {contact.length === 0 ? (
+            {bookings.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
                   <h3>Data not yet available</h3>
                 </TableCell>
               </TableRow>
             ) : (
-              contact.map((contact: Contact, i: number) => (
+              bookings.map((booking: BookingTransactions, i: number) => (
                 <TableRow key={i}>
-                  <TableCell className="font-medium">{contact.name}</TableCell>
-                  <TableCell className="font-medium">{contact.email}</TableCell>
+                  <TableCell className="font-medium">{booking.name}</TableCell>
+                  <TableCell className="font-medium">{booking.email}</TableCell>
                   <TableCell className="font-medium">
-                    {contact.status === 'Read' ? (
-                    <Badge variant="default" className="bg-green-500 text-white">Read</Badge>
+                    <Link className='underline text-blue-400' href={`/dashboard/tours/update/${booking.tourId}`}>
+                      Link
+                    </Link>
+                  </TableCell>
+                  <TableCell className="font-medium">Rp. {booking.total_amount.toLocaleString('id-ID')}</TableCell>
+                  <TableCell className="font-medium">
+                    {booking.payment_status === 'Paid' ? (
+                      <Badge variant="default" className="bg-green-500 hover:bg-green-500  text-white">Paid</Badge>
+                    ) : booking.payment_status === 'Pending' ? (
+                      <Badge variant="default" className="bg-yellow-500 hover:bg-yellow-500 text-white">Pending</Badge>
                     ) : (
-                    <Badge variant="outline" className="bg-orange-500 text-white">Not Read</Badge>
+                      <Badge variant="outline" className="bg-red-500 hover:bg-red-500 text-white">Unpaid</Badge>
                     )}
                   </TableCell>
-                  <TableCell className="font-medium">{formatDate(contact.created_at)}</TableCell>
+                  <TableCell className="font-medium">
+                    {booking.read_status === 'Read' ? (
+                      <Badge variant="default" className="bg-green-500 text-white">Read</Badge>
+                    ) : (
+                      <Badge variant="outline" className="bg-orange-500 text-white">Not Read</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="font-medium">{formatDate(booking.created_at)}</TableCell>
                   <TableCell className="font-medium hidden sm:table-cell">
-                    {formatDate(contact.updated_at)}
+                    {formatDate(booking.updated_at)}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -122,23 +140,25 @@ const ContactTable = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                          onClick={() => {
-                            MarkRead.mutate(contact.id, {
-                              onSuccess: () => {
-                                queryClient.invalidateQueries({ queryKey: ['contact'] })
-                                router.push(`/dashboard/contact/${contact.id}`)
-                              },
-                              onError: (error) => {
-                                console.error('Failed to mark as read', error)
-                              }
-                            })
+                          onClick={async () => {
+                            try {
+                              MarkRead.mutate(booking.id, {
+                                onSuccess: () => {
+                                  queryClient.invalidateQueries({ queryKey: ['booking'] })
+                                  router.push(`/dashboard/bookings/${booking.id}`)
+                                },
+                                onError: (error) => {
+                                  console.error('Failed to mark as read', error)
+                                }
+                              })
+                            } catch (error) {
+                              console.error('Failed to mark as read', error)
+                            }
                           }}
-                        >
-                          View
-                        </DropdownMenuItem>
+                        >View</DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => {
-                            setSelectedId(contact.id)
+                            setSelectedId(booking.id)
                             setOpenDialog(true)
                           }}
                         >
@@ -167,13 +187,13 @@ const ContactTable = () => {
         open={openDialog}
         onClose={() => setOpenDialog(false)}
         onConfirm={() => {
-          if (selectedId) DeleteContact.mutate(selectedId)
+          if (selectedId) DeleteBooking.mutate(selectedId)
         }}
-        isLoading={DeleteContact.isPending}
+        isLoading={DeleteBooking.isPending}
       />
 
     </Card>
   )
 }
 
-export default ContactTable
+export default BookingsTable

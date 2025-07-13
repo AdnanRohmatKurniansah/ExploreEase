@@ -81,7 +81,7 @@ function DesktopNav() {
           <Ticket className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/dashboard/transactions" label="Transactions">
+        <NavItem href="/dashboard/bookings" label="Bookings">
           <BookIcon className="h-5 w-5" />
         </NavItem>
 
@@ -163,11 +163,11 @@ function MobileNav() {
             Tours
           </Link>
           <Link
-            href="/dashboard/transactions"
+            href="/dashboard/bookings"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <BookIcon className="h-5 w-5" />
-            Transactions
+            Bookings
           </Link>
           <Link
             href="/dashboard/contact"

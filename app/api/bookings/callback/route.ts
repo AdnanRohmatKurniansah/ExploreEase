@@ -103,6 +103,10 @@ export const POST = async (req: Request) => {
             payment_status: 'Pending', 
           },
         })
+
+        return NextResponse.json({ 
+            message: 'Transaction status pending' 
+        }, { status: 202 })
       } else {
         return NextResponse.json({ 
             message: 'Transaction status not completed' 

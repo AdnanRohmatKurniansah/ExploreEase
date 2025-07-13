@@ -7,30 +7,21 @@ export const GET = async (req: NextRequest, {params}: { params: Promise<Params> 
     const { id } = await params
 
     try {
-        const contact = await prisma.contact.findUnique({
+        const booking = await prisma.bookingTransactions.findUnique({
             where: {
                 id: id
             }
         })
 
-        if (!contact) {
+        if (!booking) {
             return NextResponse.json({
-                message: 'Contact not found'
+                message: 'Booking not found'
             }, { status: 404 })
         }
 
-        await prisma.contact.update({
-            where: {
-                id: id
-            },
-            data: {
-                status: "Read"
-            }
-        })
-
         return NextResponse.json({
-            message: 'Contact detail',
-            data: contact
+            message: 'Booking detail',
+            data: booking
         })
     } catch (error) {
         console.error(error)
@@ -40,30 +31,30 @@ export const GET = async (req: NextRequest, {params}: { params: Promise<Params> 
     }
 }
 
-export const PUT = async (req: NextRequest, { params }: { params: Promise<Params> }) => {
+export const PUT = async (req: NextRequest, {params}: { params: Promise<Params> }) => {
     const { id } = await params
 
     try {
         checkServerSession()
 
-        const contact = await prisma.contact.findUnique({
+        const booking = await prisma.bookingTransactions.findUnique({
             where: {
                 id: id
             }
         })
 
-        if (!contact) {
+        if (!booking) {
             return NextResponse.json({
-                message: 'Contact not found'
+                message: 'Booking not found'
             }, {status: 404})
         }
 
-        const response = await prisma.contact.update({
+        const response = await prisma.bookingTransactions.update({
             where: {
                 id: id
             },
             data: {
-                status: 'Read'
+                read_status: 'Read'
             }
         })
 
@@ -75,7 +66,7 @@ export const PUT = async (req: NextRequest, { params }: { params: Promise<Params
         console.error(error)
         return NextResponse.json({
             message: 'Internal Server Error'
-        }, {status: 500})
+        }, { status: 500 })
     }
 }
 
@@ -85,26 +76,26 @@ export const DELETE = async (req: NextRequest, { params }: { params: Promise<Par
     try {
         checkServerSession()
 
-        const contact = await prisma.contact.findUnique({
+        const booking = await prisma.bookingTransactions.findUnique({
             where: {
                 id: id
             }
         })
 
-        if (!contact) {
+        if (!booking) {
             return NextResponse.json({
-                message: 'Contact not found'
+                message: 'Booking not found'
             }, {status: 404})
         }
 
-        const response = await prisma.contact.delete({
+        const response = await prisma.bookingTransactions.delete({
             where: {
                 id: id
             }
         })
 
         return NextResponse.json({
-            message: 'Contact has been deleted',
+            message: 'Booking has been deleted',
             data: response
         })
     } catch (error) {
