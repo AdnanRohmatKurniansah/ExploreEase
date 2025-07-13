@@ -126,6 +126,7 @@ model Contact {
 
 enum PaymentStatus {
   Unpaid
+  Pending
   Paid
 }
 enum Status {

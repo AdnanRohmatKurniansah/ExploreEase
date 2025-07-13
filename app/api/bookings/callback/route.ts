@@ -94,6 +94,15 @@ export const POST = async (req: Request) => {
         return NextResponse.json({ 
             message: 'Payment updated successfully' 
         }, { status: 200 })
+      } else if(transaction_status === 'pending') {
+        await prisma.bookingTransactions.update({
+          where: { 
+            order_id 
+          },
+          data: {
+            payment_status: 'Pending', 
+          },
+        })
       } else {
         return NextResponse.json({ 
             message: 'Transaction status not completed' 
