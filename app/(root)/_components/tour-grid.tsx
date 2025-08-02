@@ -8,7 +8,12 @@ import Link from 'next/link'
 import React from 'react'
 
 const TourGrid = async () => {
-  const tours = await prisma.tours.findMany()
+  const tours = await prisma.tours.findMany({
+    orderBy: {
+        created_at: 'asc'
+    },
+    take: 10
+  })
 
   return (
     <div className='relative w-full px-5 md:px-15 section-page'>

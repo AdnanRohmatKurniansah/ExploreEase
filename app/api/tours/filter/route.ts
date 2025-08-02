@@ -31,6 +31,16 @@ export const GET = async (req: NextRequest) => {
           OR: [
             {
               discount_price: {
+                not: null,
+                gte: price,
+                lte: priceMax,
+              },
+            },
+            {
+              discount_price: {
+                equals: 0,
+              },
+              price: {
                 gte: price,
                 lte: priceMax,
               },

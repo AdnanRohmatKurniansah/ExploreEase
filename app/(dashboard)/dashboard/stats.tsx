@@ -2,12 +2,24 @@ import React from 'react'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/app/components/ui/card'
 import { ArrowRight, Badge, BookIcon, Plane, Ticket, User } from 'lucide-react'
 import prisma from '@/app/lib/prisma'
+import { subDays } from 'date-fns'
 
 const Stats = async () => {
   const users = await prisma.user.count()
   const destinations = await prisma.destinations.count()
   const tours = await prisma.tours.count()
   const bookings = await prisma.bookingTransactions.count()
+
+  await prisma.bookingTransactions.deleteMany({
+    where: {
+      payment_status: {
+        in: ['Unpaid', 'Pending'],
+      },
+      created_at: {
+        lt: subDays(new Date(), 1),
+      },
+    },
+  })
 
   return (
     <Card className='mb-8 md:mb-0'>

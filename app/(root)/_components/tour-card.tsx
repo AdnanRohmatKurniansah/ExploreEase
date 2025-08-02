@@ -37,8 +37,8 @@ const TourCard = ({ tour }: { tour: Tours }) => {
   }
 
   return (
-    <div className="group block">
-      <Card className="overflow-hidden gap-0 p-3 hover:shadow-md transition-shadow">
+    <div className="group block h-full">
+      <Card className="overflow-hidden h-full gap-0 p-3 hover:shadow-md transition-shadow">
         <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
           <Link href={`/tours/${tour.slug}`}>
             <Image alt={tour.title} src={tour.image} fill className="object-cover transition-transform duration-300 group-hover:scale-105"/>
@@ -67,12 +67,12 @@ const TourCard = ({ tour }: { tour: Tours }) => {
             <MapPin className="w-5 me-1" /> {tour.location}
           </p>
           <div className="price font-semibold text-md mt-2">
-            {tour.discount_price != null ? (
+            {tour.discount_price != 0 ? (
               <div className="font-semibold">
                 <h5 className="line-through text-red-600 me-2">
                   From Rp {tour.price.toLocaleString()}
                 </h5>
-                <h5>From Rp {tour.discount_price.toLocaleString()}</h5>
+                <h5>From Rp {tour.discount_price?.toLocaleString()}</h5>
               </div>
             ) : (
               <h5 className="font-semibold">From Rp {tour.price.toLocaleString()}</h5>

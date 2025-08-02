@@ -20,7 +20,7 @@ const TourItineraryTable = ({ tourId }: {tourId: string}) => {
   const useTourItinerary = (page: number, limit: number) => useQuery({
     queryKey: ['toursItinerary', page],
     queryFn: () =>
-      axios.get(`/api/tours/itinerary?page=${page}&limit=${limit}`).then(res => res.data),
+      axios.get(`/api/tours/itinerary?page=${page}&limit=${limit}&tourId=${tourId}`).then(res => res.data),
     staleTime: 60 * 1000,
     retry: 3,
   })

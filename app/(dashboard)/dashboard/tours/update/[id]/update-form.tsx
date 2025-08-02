@@ -100,8 +100,8 @@ const UpdateForm = ({ categories, destinations, excludes, includes, tour }: Upda
     <>
         <Card>
             <CardHeader>
-                <CardTitle className='text-lg'>Update destination</CardTitle>
-                <CardDescription>Use this form to update destination.</CardDescription>
+                <CardTitle className='text-lg'>Update tour</CardTitle>
+                <CardDescription>Use this form to update tour.</CardDescription>
             </CardHeader>
             <CardContent>
             <form onSubmit={handleSubmit((data) => UpdateTour.mutate(data))} encType='multipart/form-data' className="space-y-4">

@@ -85,7 +85,11 @@ export const PUT = async (req: NextRequest, {params}: { params: Promise<Params> 
 
         const { title, description, highlight, price, discount_price, categoryId, destinationId, include, exclude, location, image } = requestData.data
 
-        const slug = await generateUniqueSlug('tours', title)
+        let slug = tour.slug;
+        if (title !== tour.title) {
+            slug = await generateUniqueSlug('tours', title);
+        }
+
         const is_popular = formData.get('is_popular') === '1' ? true : false
 
         if (image && image instanceof Blob && image.size > 0) {

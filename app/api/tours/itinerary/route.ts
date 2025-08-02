@@ -9,9 +9,20 @@ export const GET = async (req: NextRequest) => {
     const page = Number(searchParams.get("page") || 1)
     const limit = Number(searchParams.get("limit") || 10)
     const offset = (page - 1) * limit
+    const tourId = searchParams.get("tourId")
+
+    if (!tourId) {
+      return NextResponse.json(
+        { message: "Missing tourId parameter" },
+        { status: 400 }
+      )
+    }
 
     const [data, total] = await Promise.all([
       prisma.toursItinerary.findMany({
+        where: {
+          tourId: tourId
+        },
         skip: offset,
         take: limit,
         orderBy: {

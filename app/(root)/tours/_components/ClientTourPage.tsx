@@ -140,7 +140,7 @@ const ClientTourPage = ({ categories, destinations, initialDestinationSlug, init
           ) : isError || !data?.tours ? (
             <div className="text-center text-red-600">Failed to fetch tours.</div>
           ) : data.tours.length === 0 ? (
-            <div className="not-found flex flex-col items-center justify-center h-2/3 text-center">
+            <div className="not-found flex flex-col items-center justify-center h-2/3 mt-10 md:mt-0 text-center">
               <div className="w-[150px] md:w-[240px] aspect-square relative mb-4">
                 <Image src="/images/not-found.png" fill alt="not found img" className="object-contain" />
               </div>

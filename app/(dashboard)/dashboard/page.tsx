@@ -2,11 +2,7 @@ import { ChartArea } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import Stats from './stats';
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ q: string; offset: string }>;
-  }
-) {
+export default async function Page() {
   return (
     <>
       <div className="flex items-center">

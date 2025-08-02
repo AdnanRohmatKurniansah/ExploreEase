@@ -14,14 +14,19 @@ type Props = {
 }
 
 const TourGallery = ({ tour, tourImages }: Props) => {
+  const galleryImages = [
+    { image: tour.image, title: tour.title }, 
+    ...tourImages
+  ]
+
   const [currentImage, setCurrentImage] = useState(0)
 
   const handlePrev = () => {
-    setCurrentImage((prev) => (prev === 0 ? tourImages.length - 1 : prev - 1))
+    setCurrentImage((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))
   }
 
   const handleNext = () => {
-    setCurrentImage((prev) => (prev === tourImages.length - 1 ? 0 : prev + 1))
+    setCurrentImage((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))
   }
 
   return (
@@ -29,15 +34,15 @@ const TourGallery = ({ tour, tourImages }: Props) => {
       <div className="relative w-full mb-4 rounded-lg overflow-hidden">
         {tourImages.length > 0 && (
           <>
-            <Image src={tourImages[currentImage].image} alt={tourImages[currentImage].title} width={800} height={450} className="w-full h-[300px] md:h-[450px] object-cover rounded-lg"/>
+            <Image src={galleryImages[currentImage].image} alt={galleryImages[currentImage].title} width={800} height={450} className="w-full h-[300px] md:h-[450px] object-cover rounded-lg"/>
             <Button onClick={handlePrev} className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"><ChevronLeft /></Button>
             <Button onClick={handleNext} className="absolute top-1/2 right-2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"><ChevronRight /></Button>
           </>
         )}
       </div>
-      {tourImages.length > 1 && (
+      {galleryImages.length > 1 && (
       <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-        {tourImages.map((img, i) => (
+        {galleryImages.map((img, i) => (
           <div key={i} onClick={() => setCurrentImage(i)} className={`rounded cursor-pointer border ${i === currentImage ? 'border-red-500' : 'border-transparent'} rounded`}>
             <Image src={img.image} alt={img.title} width={100} height={100} className="rounded-md object-cover h-[100px] md:h-[120px] w-full"/>
           </div>

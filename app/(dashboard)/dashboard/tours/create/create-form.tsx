@@ -80,7 +80,7 @@ const CreateForm = ({ categories, destinations, excludes, includes }: CreateForm
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries({ queryKey: ['tours'] })
-      router.push('/dashboard/tours')
+      router.push(`/dashboard/tours/update/${data.data.id}`)
       router.refresh()
     },
     onError: (error: any) => {

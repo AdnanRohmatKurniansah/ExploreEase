@@ -8,9 +8,8 @@ import React from 'react'
 
 const CategoriesSlide = async () => {
   const categories = await prisma.categories.findMany()
-  const shuffled = categories.sort(() => 0.5 - Math.random())
-  const randomCategories = shuffled.slice(0, 5)
-
+  const shuffled = categories.sort(() => 0.6 - Math.random())
+  const randomCategories = shuffled
 
   const categoriesHead = {
     title: "Browse by category",
