@@ -38,7 +38,7 @@
     "mailtrap": "^4.2.0",
     "midtrans-client": "^1.4.3",
     "nanoid": "^5.1.5",
-    "next": "15.3.4",
+    "next": "15.3.8",
     "next-auth": "^4.24.11",
     "next-themes": "^0.4.6",
     "nodemailer": "^6.10.1",
